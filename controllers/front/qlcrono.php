@@ -37,7 +37,8 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
             pl.delivery_in_stock,
             pl.description_short,
             wi.image_url AS image_url,
-            p.condition
+            p.condition,
+            wp.internal_code
         FROM " . _DB_PREFIX_ . "product p
         INNER JOIN " . _DB_PREFIX_ . "product_lang pl
             ON p.id_product = pl.id_product AND pl.id_lang = 1
@@ -81,19 +82,27 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
 
         $skipped_by_supplier = 0;
         $skipped_by_category = 0;
+        $skipped_by_internal_code = 0;
 
-        $suppliers_config = Configuration::get('IDEALO_FEED_SUPPLIERS');
         $suppliers = [];
+        $suppliers_query = $db->executeS("SELECT supplier_id FROM " . _DB_PREFIX_ . "idealofeed_blacklist_suppliers");
 
-        if ($suppliers_config) {
-            $suppliers = explode(",", $suppliers_config);
+        foreach ($suppliers_query as $supplier) {
+            $suppliers[$supplier['supplier_id']] = $supplier['supplier_id'];
         }
 
-        $categories_config = Configuration::get('IDEALO_FEED_CATEGORIES');
         $categories = [];
+        $categories_query = $db->executeS("SELECT category_id FROM " . _DB_PREFIX_ . "idealofeed_blacklist_categories");
 
-        if ($categories_config) {
-            $categories = explode(",", $categories_config);
+        foreach ($categories_query as $category) {
+            $categories[$category['category_id']] = $category['category_id'];
+        }
+
+        $internal_codes_query = $db->executeS("SELECT internal_code FROM " . _DB_PREFIX_ . "idealofeed_blacklist");
+
+        $internal_codes = array();
+        foreach ($internal_codes_query as $code) {
+            array_push($internal_codes, $code["internal_code"]);
         }
 
         $rami_query = $db->executeS("SELECT id_ramo_categoria, ramo FROM " . _DB_PREFIX_ . "webfeed_ramo_categoria");
@@ -118,12 +127,17 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
         if ($results) {
             foreach ($results as $row) {
 
-                if (!empty($suppliers) && !in_array($row["id_supplier"], $suppliers)) {
+                if (in_array($row["internal_code"], $internal_codes)) {
+                    $skipped_by_internal_code++;
+                    continue; // Skip products in internal codes
+                }
+
+                if (in_array($row["id_supplier"], $suppliers)) {
                     $skipped_by_supplier++;
                     continue; // Skip products not in suppliers
                 }
 
-                if (!empty($categories) && in_array($row["id_category_default"], $categories)) {
+                if (in_array($row["id_category_default"], $categories)) {
                     $skipped_by_category++;
                     continue; // Skip products from excluded suppliers
                 }
@@ -187,6 +201,7 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
             "filesize" => filesize($filePath),
             "skipped_by_supplier" => $skipped_by_supplier,
             "skipped_by_category" => $skipped_by_category,
+            "skipped_by_internal_code" => $skipped_by_internal_code,
             "time" => round($end - $start, 4)
         ]));
     }

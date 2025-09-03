@@ -36,6 +36,34 @@ class IdealoFeed extends Module
 
         Configuration::updateValue('IDEALO_FEED', 'Idealo feed');
 
+        $db = Db::getInstance();
+
+        $db->execute('
+            CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'idealofeed_blacklist` (
+                `id_idealo_blacklist` INT(11) NOT NULL AUTO_INCREMENT,
+                `internal_code` VARCHAR(100) NOT NULL,
+                PRIMARY KEY (`id_idealo_blacklist`)
+            )
+        ');
+
+        $db->execute('
+            CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'idealofeed_blacklist_categories` (
+                `id_idealofeed_blacklist_categories` INT(11) NOT NULL AUTO_INCREMENT,
+                `category_id` INT(11) NOT NULL,
+                PRIMARY KEY (`id_idealofeed_blacklist_categories`)
+            )
+        ');
+
+        $db->execute('
+            CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'idealofeed_blacklist_suppliers` (
+                `id_idealofeed_blacklist_suppliers` INT(11) NOT NULL AUTO_INCREMENT,
+                `supplier_id` INT(11) NOT NULL,
+                PRIMARY KEY (`id_idealofeed_blacklist_suppliers`)
+            )
+        ');
+
+        $this->addTabs();
+
         return true;
     }
 
@@ -51,6 +79,9 @@ class IdealoFeed extends Module
 
         $db = Db::getInstance();
 
+        $db->execute("DELETE FROM " . _DB_PREFIX_ . "tab WHERE module='idealofeed'");
+
+
         return true;
     }
 
@@ -60,23 +91,6 @@ class IdealoFeed extends Module
 
 
         if (Tools::isSubmit('submit' . $this->name)) {
-
-            if (Tools::getValue("IDEALO_FEED_SUPPLIERS") != null) {
-                Configuration::updateValue(
-                    "IDEALO_FEED_SUPPLIERS",
-                    implode(",", Tools::getValue("IDEALO_FEED_SUPPLIERS"))
-                );
-            }
-
-            if (Tools::getValue("IDEALO_FEED_CATEGORIES") != null) {
-                Configuration::updateValue(
-                    "IDEALO_FEED_CATEGORIES",
-                    implode(",", Tools::getValue("IDEALO_FEED_CATEGORIES"))
-                );
-            } else {
-                Configuration::updateValue("IDEALO_FEED_CATEGORIES", "");
-            }
-
 
             $output .= $this->displayConfirmation($this->l('Settings updated'));
         }
@@ -108,49 +122,7 @@ class IdealoFeed extends Module
             )
         );
 
-        $supp = Supplier::getSuppliers();
-        $supplies = array();
-        foreach ($supp as $s) {
-            $supplies[] = array("id_option" => $s["id_supplier"], "name" => $s["name"]);
-        }
 
-        $fields_form[1]['form'] = array(
-            'legend' => array(
-                'title' => $this->l('Filters'),
-            ),
-            'input' => array(
-                array(
-                    'type' => 'select',
-                    'label' => $this->l('INCLUDE suppliers'),
-                    'name' => 'IDEALO_FEED_SUPPLIERS[]',
-                    'multiple' => true,
-                    "options" => array(
-                        "id" => "id_option",
-                        "query" => $supplies,
-                        "name" => "name"
-                    )
-                ),
-                array(
-                    'type' => 'categories',
-                    'label' => $this->l('EXCLUDE categories'),
-                    'name' => 'IDEALO_FEED_CATEGORIES',
-                    'tree' => [
-                        'selected_categories' => explode(
-                            ",",
-                            Configuration::get('IDEALO_FEED_CATEGORIES')
-                        ),
-                        'disabled_categories' => null,
-                        'use_search' => false,
-                        'use_checkbox' => true,
-                        'id' => 'id_category_tree',
-                    ],
-                    'required' => false
-                ),
-            ),
-            'submit' => array(
-                'title' => $this->l('Save'),
-            )
-        );
 
 
 
@@ -193,13 +165,48 @@ class IdealoFeed extends Module
             . "index.php?fc=module&module=idealofeed&controller=qlcrono";
 
 
-        $helper->fields_value['IDEALO_FEED_SUPPLIERS[]'] = explode(
-            ",",
-            Configuration::get('IDEALO_FEED_SUPPLIERS')
-        );
 
 
 
         return $helper->generateForm($fields_form);
+    }
+
+    public function addTabs()
+    {
+
+        //Main Tab
+        $tabMain = new TabCore();
+        $tabMain->class_name = "IdealoFeed";
+        $tabMain->id_parent = 0;
+        $tabMain->module = $this->name;
+        $tabMain->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = "Idealo";
+        $tabMain->save();
+
+        //Main Tab
+        $tabBlackListInternalCodesTab = new TabCore();
+        $tabBlackListInternalCodesTab->class_name = "IdealoFeedBlacklist";
+        $tabBlackListInternalCodesTab->id_parent = $tabMain->id;
+        $tabBlackListInternalCodesTab->module = $this->name;
+        $tabBlackListInternalCodesTab->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = $this->l('Blacklist internal code');
+        $tabBlackListInternalCodesTab->save();
+
+        //Main Tab
+        $tabBlackListCategoriesTab = new TabCore();
+        $tabBlackListCategoriesTab->class_name = "IdealoFeedBlacklistCategory";
+        $tabBlackListCategoriesTab->id_parent = $tabMain->id;
+        $tabBlackListCategoriesTab->module = $this->name;
+        $tabBlackListCategoriesTab->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = $this->l('Blacklist categorie');
+        $tabBlackListCategoriesTab->save();
+
+        $tabBlackListSuppliersTab = new TabCore();
+        $tabBlackListSuppliersTab->class_name = "IdealoFeedBlacklistSupplier";
+        $tabBlackListSuppliersTab->id_parent = $tabMain->id;
+        $tabBlackListSuppliersTab->module = $this->name;
+        $tabBlackListSuppliersTab->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = $this->l('Blacklist fornitori');
+        $tabBlackListSuppliersTab->save();
+
+
+
+        return true;
     }
 }
