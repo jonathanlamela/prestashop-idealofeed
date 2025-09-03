@@ -11,12 +11,15 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
     {
         $this->ajax = 1;
 
-        $this->writeFeed();
+        ini_set('display_errors', 'on');
+        $this->writeFull();
+        ini_set('display_errors', 'off');
     }
 
     public function writeFull()
     {
         ini_set('memory_limit', '4096M');
+        $start = microtime(true);
 
         $db = Db::getInstance();
 
@@ -33,7 +36,8 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
             p.price,
             pl.delivery_in_stock,
             pl.description_short,
-            wi.image_url AS image_url
+            wi.image_url AS image_url,
+            p.condition
         FROM " . _DB_PREFIX_ . "product p
         INNER JOIN " . _DB_PREFIX_ . "product_lang pl
             ON p.id_product = pl.id_product AND pl.id_lang = 1
@@ -67,7 +71,9 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
             "Descrizione prodotto",
             "URL prodotto",
             "URL immagine",
-            "Spese di spedizione"
+            "Spese di spedizione",
+            "Condizioni",
+            "Tipo condizione",
         ];
         fputcsv($file, $header, "|");
 
@@ -137,6 +143,8 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
 
                 $link = "https://" . Tools::getShopDomain() . "/" . $row["id_product"] . "-" . $row["link_rewrite"] . ".html?utm_source=idealo";
 
+                $condition = $row["condition"];
+
                 fputcsv($file, [
                     $row["id_product"],
                     $row["ean13"],
@@ -149,7 +157,9 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
                     $row["description_short"],
                     $link,
                     $row["image_url"],
-                    0
+                    0,
+                    "GOOD",
+                    $condition ? strtoupper($condition) : "NEW",
                 ], "|");
             }
         }
@@ -170,16 +180,14 @@ class IdealoFeedQlcronoModuleFrontController extends ModuleFrontController
 
         ini_set('memory_limit', '256M');
 
+        $end = microtime(true);
+
         $this->ajaxRender(json_encode([
             "url" => Tools::getHttpHost(true) . __PS_BASE_URI__ . "/datafeed/idealo.csv?v=" . time(),
             "filesize" => filesize($filePath),
             "skipped_by_supplier" => $skipped_by_supplier,
             "skipped_by_category" => $skipped_by_category,
+            "time" => round($end - $start, 4)
         ]));
-    }
-
-    public function writeFeed()
-    {
-        $this->writeFull();
     }
 }
