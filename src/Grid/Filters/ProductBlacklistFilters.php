@@ -1,0 +1,23 @@
+<?php
+
+namespace IdealoFeed\Grid\Filters;
+
+use PrestaShop\PrestaShop\Core\Search\Filters;
+use IdealoFeed\Grid\DefinitionFactory\ProductBlacklistGridDefinitionFactory;
+
+
+final class ProductBlacklistFilters extends Filters
+{
+    protected $filterId = ProductBlacklistGridDefinitionFactory::GRID_ID;
+
+    public static function getDefaults(): array
+    {
+        return [
+            'limit' => 100,
+            'offset' => 0,
+            'orderBy' => 'id',
+            'sortOrder' => 'asc',
+            'filters' => [],
+        ];
+    }
+}

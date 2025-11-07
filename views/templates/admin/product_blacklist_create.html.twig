@@ -1,0 +1,46 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+if (typeof $ !== 'undefined' && $.fn.select2) {
+$('select.select2').select2({
+allowClear: true,
+placeholder: function () {
+return $(this).data('placeholder') || '';
+}
+});
+}
+});
+	</script>
+{% endblock %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		.select2-container .select2-selection--single {
+			height: 50px;
+		}
+	</style>
+{% endblock %}
+
+
+{% block content %}
+	<div class="card">
+		<h3 class="card-header">
+			{{ 'Blacklist prodotti'|trans({}, 'Modules.Webfeed.Admin') }}
+		</h3>
+
+		<div class="card-body">
+			{{ form_start(form) }}
+
+			<div class="form-wrapper">
+				{{ form_widget(form) }}
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}

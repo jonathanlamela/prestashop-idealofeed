@@ -1,0 +1,28 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+
+{# 2. Definisci il blocco per la barra degli strumenti (dove va il bottone) #}
+{% block content_header %}
+	{{parent()}}
+	<div class="py-4">
+		<a href=" {{ add_new_href }} " class=" btn btn-primary" id=" page-header-desc-configuration-add_new">
+			<i class="material-icons">add</i>
+			{{ 'Aggiungi nuovo record'|trans({}, translation_domain) }}
+		</a>
+	</div>
+{% endblock %}
+
+{# 3. Inserisci la griglia nel blocco content #}
+{% block content %}
+	{# Questo template è standard e dovrebbe funzionare #}
+	{% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': grid} %}
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('/modules/idealofeed/views/js/product_blacklist.js') }}?v={{ 'now'|date('U') }}"></script>
+
+	<script src="{{ asset('themes/default/js/bundle/pagination.js') }}?v={{ 'now'|date('U') }}"></script>
+{% endblock %}

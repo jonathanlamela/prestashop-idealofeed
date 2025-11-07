@@ -1,0 +1,164 @@
+services:
+  # Settings
+  idealofeed.form.handler.configuration:
+    class: 'IdealoFeed\Form\FormHandler\ConfigurationFormHandler'
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  #Form types
+  idealofeed.form.type.configuration:
+    class: 'IdealoFeed\Form\Type\ConfigurationFormType'
+    public: true
+    tags: ['form.type']
+
+  idealofeed.form.type.category_blacklist:
+    class: 'IdealoFeed\Form\Type\CategoryBlacklistType'
+    public: true
+    tags: ['form.type']
+    arguments:
+      - '@IdealoFeed\Repository\FeedRepository'
+
+  idealofeed.form.type.supplier_blacklist:
+    class: 'IdealoFeed\Form\Type\SupplierBlacklistType'
+    public: true
+    tags: ['form.type']
+    arguments:
+      - '@IdealoFeed\Repository\FeedRepository'
+
+  #Controllers
+  IdealoFeed\Controller\ConfigurationController:
+    class: 'IdealoFeed\Controller\ConfigurationController'
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  IdealoFeed\Controller\CategoryBlacklistController:
+    class: 'IdealoFeed\Controller\CategoryBlacklistController'
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  IdealoFeed\Controller\ProductBlacklistController:
+    class: 'IdealoFeed\Controller\ProductBlacklistController'
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  IdealoFeed\Controller\SupplierBlacklistController:
+    class: 'IdealoFeed\Controller\SupplierBlacklistController'
+    public: true
+    autowire: true
+    autoconfigure: true
+    tags: ['controller.service_arguments']
+
+  # Repositories
+  IdealoFeed\Repository\FeedRepository:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  # Grid Category
+  # 1. Grid definition factory
+  idealofeed.grid.definition.factory.category_blacklist:
+    class: 'IdealoFeed\Grid\DefinitionFactory\CategoryBlacklistGridDefinitionFactory'
+    parent: 'PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory'
+    public: true
+    tags:
+      - { name: 'prestashop.grid.definition.factory', grid_id: 'idealofeed_category_blacklist' }
+
+  # 2. Query Builder
+  idealofeed.grid.category_blacklist_query_builder:
+    class: 'IdealoFeed\Grid\QueryBuilder\CategoryBlacklistQueryBuilder'
+    parent: "prestashop.core.grid.abstract_query_builder"
+    public: true
+
+  # 3. Data factory
+  idealofeed.grid.data.factory.category_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@idealofeed.grid.category_blacklist_query_builder' # Point 2
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'idealofeed_category_blacklist' # this should match grid id"
+
+  # 4. Grid Factory
+  idealofeed.grid.factory.category_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@idealofeed.grid.definition.factory.category_blacklist'
+      - '@idealofeed.grid.data.factory.category_blacklist'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+    public: true
+
+  # Grid Product
+  # 1. Grid definition factory
+  idealofeed.grid.definition.factory.product_blacklist:
+    class: 'IdealoFeed\Grid\DefinitionFactory\ProductBlacklistGridDefinitionFactory'
+    parent: 'PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory'
+    public: true
+    tags:
+      - { name: 'prestashop.grid.definition.factory', grid_id: 'idealofeed_product_blacklist' }
+
+  # 2. Query Builder
+  idealofeed.grid.product_blacklist_query_builder:
+    class: 'IdealoFeed\Grid\QueryBuilder\ProductBlacklistQueryBuilder'
+    parent: "prestashop.core.grid.abstract_query_builder"
+    public: true
+
+  # 3. Data factory
+  idealofeed.grid.data.factory.product_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@idealofeed.grid.product_blacklist_query_builder' # Point 2
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'idealofeed_product_blacklist' # this should match grid id"
+
+  # 4. Grid Factory
+  idealofeed.grid.factory.product_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@idealofeed.grid.definition.factory.product_blacklist'
+      - '@idealofeed.grid.data.factory.product_blacklist'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+    public: true
+
+  # Grid Supplier
+  # 1. Grid definition factory
+  idealofeed.grid.definition.factory.supplier_blacklist:
+    class: 'IdealoFeed\Grid\DefinitionFactory\SupplierBlacklistGridDefinitionFactory'
+    parent: 'PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory'
+    public: true
+    tags:
+      - { name: 'prestashop.grid.definition.factory', grid_id: 'idealofeed_supplier_blacklist' }
+
+  # 2. Query Builder
+  idealofeed.grid.supplier_blacklist_query_builder:
+    class: 'IdealoFeed\Grid\QueryBuilder\SupplierBlacklistQueryBuilder'
+    parent: "prestashop.core.grid.abstract_query_builder"
+    public: true
+
+  # 3. Data factory
+  idealofeed.grid.data.factory.supplier_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+    arguments:
+      - '@idealofeed.grid.supplier_blacklist_query_builder' # Point 2
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'idealofeed_supplier_blacklist' # this should match grid id"
+
+  # 4. Grid Factory
+  idealofeed.grid.factory.supplier_blacklist:
+    class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+    arguments:
+      - '@idealofeed.grid.definition.factory.supplier_blacklist'
+      - '@idealofeed.grid.data.factory.supplier_blacklist'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
+    public: true

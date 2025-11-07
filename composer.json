@@ -1,0 +1,11 @@
+{
+    "name": "idealofeed/module",
+    "description": "Modulo Idealo per PrestaShop 9",
+    "type": "prestashop-module",
+    "autoload": {
+        "psr-4": {
+            "IdealoFeed\\": "src/"
+        }
+    },
+    "require": {}
+}

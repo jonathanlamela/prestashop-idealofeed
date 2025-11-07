@@ -1,0 +1,33 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+
+	<div class="container mt-3">
+
+		{{ form_start(form, { attr: { class: 'form-horizontal' } }) }}
+		{# --- CATALOGO --- #}
+		<div class="card mb-4">
+			<div class="card-header">
+				<h3 class="mb-0">{{ 'Feed'|trans({}, 'Modules.Webfeed.Admin') }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="form-group mb-3">{{ form_row(form.LIVE_URL) }}</div>
+
+			</div>
+		</div>
+
+
+		{# --- PULSANTE SALVA --- #}
+		<div class="card mb-4">
+			<div class="card-body text-center">
+				<button class="btn btn-primary">
+					<i class="material-icons">save</i>
+					{{ 'Salva impostazioni'|trans({}, 'Modules.Webfeed.Admin') }}
+				</button>
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %}
