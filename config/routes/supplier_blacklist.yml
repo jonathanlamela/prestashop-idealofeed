@@ -1,0 +1,34 @@
+# supplier_blacklist
+idealofeed_supplier_blacklist_index:
+  path: /supplier/blacklist
+  methods: [GET]
+  defaults:
+    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::indexAction'
+    _legacy_controller: SupplierBlacklist
+    _legacy_link: SupplierBlacklist
+
+idealofeed_supplier_blacklist_search:
+  path: /supplier/blacklist
+  methods: [POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::searchAction'
+    redirectRoute: idealofeed_supplier_blacklist_index
+    _legacy_controller: SupplierBlacklist
+    _legacy_link: SupplierBlacklist
+
+idealofeed_supplier_blacklist_delete:
+  path: /supplier/blacklist/delete
+  methods: [POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::deleteAction'
+    _legacy_controller: SupplierBlacklist
+    _legacy_link: SupplierBlacklist
+
+idealofeed_supplier_blacklist_create:
+  path: /supplier/blacklist/create
+  methods: [GET, POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::createAction'
+    _legacy_controller: SupplierBlacklist
+    _legacy_link: SupplierBlacklist
+

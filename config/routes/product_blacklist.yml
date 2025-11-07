@@ -1,0 +1,35 @@
+
+
+# product_blacklist
+idealofeed_product_blacklist_index:
+  path: /product/blacklist
+  methods: [GET]
+  defaults:
+    _controller: 'IdealoFeed\Controller\ProductBlacklistController::indexAction'
+    _legacy_controller: ProductBlacklist
+    _legacy_link: ProductBlacklist
+
+idealofeed_product_blacklist_search:
+  path: /product/blacklist
+  methods: [POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\ProductBlacklistController::searchAction'
+    redirectRoute: idealofeed_product_blacklist_index
+    _legacy_controller: ProductBlacklist
+    _legacy_link: ProductBlacklist
+
+idealofeed_product_blacklist_delete:
+  path: /product/blacklist/delete
+  methods: [POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\ProductBlacklistController::deleteAction'
+    _legacy_controller: ProductBlacklist
+    _legacy_link: ProductBlacklist
+
+idealofeed_product_blacklist_create:
+  path: /product/blacklist/create
+  methods: [GET, POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\ProductBlacklistController::createAction'
+    _legacy_controller: ProductBlacklist
+    _legacy_link: ProductBlacklist

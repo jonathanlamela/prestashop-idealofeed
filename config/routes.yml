@@ -1,95 +1,14 @@
-idealofeed_settings_index:
-  path: /idealo_feed/settings
-  methods: [GET, POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\ConfigurationController::index'
+parameters:
+  path: idealofeed
 
-# category_blacklist
-idealofeed_category_blacklist_index:
-  path: /idealofeed/category-blacklist
-  methods: [GET]
-  defaults:
-    _controller: 'IdealoFeed\Controller\CategoryBlacklistController::indexAction'
-    _legacy_controller: CategoryBlacklistController
-    _legacy_link: CategoryBlacklistController
+idealofeed_settings:
+  resource: 'routes/settings.yml'
 
-idealofeed_category_blacklist_search:
-  path: /idealofeed/category-blacklist
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\CategoryBlacklistController::searchAction'
-    redirectRoute: idealofeed_category_blacklist_index
-    _legacy_controller: CategoryBlacklistController
+idealofeed_category_blacklist:
+  resource: 'routes/category_blacklist.yml'
 
-idealofeed_category_blacklist_delete:
-  path: /idealofeed/category-blacklist/delete
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\CategoryBlacklistController::deleteAction'
+idealofeed_product_blacklist:
+  resource: 'routes/product_blacklist.yml'
 
-idealofeed_category_blacklist_create:
-  path: /idealofeed/category-blacklist/create
-  methods: [GET, POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\CategoryBlacklistController::createAction'
-
-# product_blacklist
-idealofeed_product_blacklist_index:
-  path: /idealofeed/product-blacklist
-  methods: [GET]
-  defaults:
-    _controller: 'IdealoFeed\Controller\ProductBlacklistController::indexAction'
-    _legacy_controller: ProductBlacklistController
-    _legacy_link: ProductBlacklistController
-
-idealofeed_product_blacklist_search:
-  path: /idealofeed/product-blacklist
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\ProductBlacklistController::searchAction'
-    redirectRoute: idealofeed_product_blacklist_index
-    _legacy_controller: ProductBlacklistController
-
-idealofeed_product_blacklist_delete:
-  path: /idealofeed/product-blacklist/delete
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\ProductBlacklistController::deleteAction'
-
-idealofeed_product_blacklist_create:
-  path: /idealofeed/product-blacklist/create
-  methods: [GET, POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\ProductBlacklistController::createAction'
-
-# supplier_blacklist
-idealofeed_supplier_blacklist_index:
-  path: /idealofeed/supplier-blacklist
-  methods: [GET]
-  defaults:
-    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::indexAction'
-    _legacy_controller: SupplierBlacklistController
-    _legacy_link: SupplierBlacklistController
-
-idealofeed_supplier_blacklist_search:
-  path: /idealofeed/supplier-blacklist
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::searchAction'
-    redirectRoute: idealofeed_supplier_blacklist_index
-    _legacy_controller: SupplierBlacklistController
-
-idealofeed_supplier_blacklist_delete:
-  path: /idealofeed/supplier-blacklist/delete
-  methods: [POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::deleteAction'
-
-idealofeed_supplier_blacklist_create:
-  path: /idealofeed/supplier-blacklist/create
-  methods: [GET, POST]
-  defaults:
-    _controller: 'IdealoFeed\Controller\SupplierBlacklistController::createAction'
-
-
-
+idealofeed_supplier_blacklist:
+  resource: 'routes/supplier_blacklist.yml'

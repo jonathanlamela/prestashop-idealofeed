@@ -1,0 +1,5 @@
+idealofeed_settings_settings_index:
+  path: /settings
+  methods: [GET, POST]
+  defaults:
+    _controller: 'IdealoFeed\Controller\ConfigurationController::index'
