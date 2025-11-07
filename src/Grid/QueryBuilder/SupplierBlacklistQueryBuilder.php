@@ -35,13 +35,13 @@ final class SupplierBlacklistQueryBuilder extends AbstractDoctrineQueryBuilder
         // Filtri
         foreach ($searchCriteria->getFilters() as $filterName => $filterValue) {
             if ($filterName === 'id' && !empty($filterValue)) {
-                $qb->andWhere("c.id = :$filterName");
+                $qb->andWhere("s.id = :$filterName");
                 $qb->setParameter($filterName, $filterValue);
                 continue;
             }
 
             if ($filterName === 'id_supplier' && !empty($filterValue)) {
-                $qb->andWhere("c.id_supplier = :$filterName");
+                $qb->andWhere("s.id_supplier = :$filterName");
                 $qb->setParameter($filterName, $filterValue);
                 continue;
             }

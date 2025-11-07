@@ -71,7 +71,7 @@ class IdealoFeed extends Module
         $tabBlackListProdotti = new TabCore();
         $tabBlackListProdotti->active = true;
         $tabBlackListProdotti->enabled = true;
-        $tabBlackListProdotti->class_name = "IdealoFeedBlacklistProduct";
+        $tabBlackListProdotti->class_name = "IdealoFeedProductBlacklist";
         $tabBlackListProdotti->route_name = "idealofeed_product_blacklist_index";
         $tabBlackListProdotti->module =  $this->name;
         $tabBlackListProdotti->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = "Blacklist prodotti";
@@ -81,7 +81,7 @@ class IdealoFeed extends Module
         $tabBlackListCategorie = new TabCore();
         $tabBlackListCategorie->active = true;
         $tabBlackListCategorie->enabled = true;
-        $tabBlackListCategorie->class_name = "IdealoFeedBlacklistCategory";
+        $tabBlackListCategorie->class_name = "IdealoFeedCategoryBlacklist";
         $tabBlackListCategorie->route_name = "idealofeed_category_blacklist_index";
         $tabBlackListCategorie->module =  $this->name;
         $tabBlackListCategorie->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = "Blacklist categorie";
@@ -91,7 +91,7 @@ class IdealoFeed extends Module
         $tabBlackListFornitori = new TabCore();
         $tabBlackListFornitori->active = true;
         $tabBlackListFornitori->enabled = true;
-        $tabBlackListFornitori->class_name = "IdealoFeedBlacklistSupplier";
+        $tabBlackListFornitori->class_name = "IdealoFeedSupplierBlacklist";
         $tabBlackListFornitori->route_name = "idealofeed_supplier_blacklist_index";
         $tabBlackListFornitori->module =  $this->name;
         $tabBlackListFornitori->name[(int) (Configuration::get('PS_LANG_DEFAULT'))] = "Blacklist fornitori";

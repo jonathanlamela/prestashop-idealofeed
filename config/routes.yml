@@ -3,12 +3,16 @@ parameters:
 
 idealofeed_settings:
   resource: 'routes/settings.yml'
+  prefix: /idealofeed
 
 idealofeed_category_blacklist:
   resource: 'routes/category_blacklist.yml'
+  prefix: /idealofeed
 
 idealofeed_product_blacklist:
   resource: 'routes/product_blacklist.yml'
+  prefix: /idealofeed
 
 idealofeed_supplier_blacklist:
   resource: 'routes/supplier_blacklist.yml'
+  prefix: /idealofeed

@@ -19,7 +19,7 @@ use IdealoFeed\Constants;
 
 final class ProductBlacklistGridDefinitionFactory extends AbstractFilterableGridDefinitionFactory
 {
-    public const GRID_ID = Constants::APP_PREFIX . "category_blacklist";
+    public const GRID_ID = Constants::APP_PREFIX . "product_blacklist";
 
     protected function getId(): string
     {

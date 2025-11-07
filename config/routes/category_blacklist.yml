@@ -1,33 +1,33 @@
 # category_blacklist
 idealofeed_category_blacklist_index:
-  path: /category-blacklist
+  path: /category/blacklist
   methods: [GET]
   defaults:
     _controller: 'IdealoFeed\Controller\CategoryBlacklistController::indexAction'
-    _legacy_controller: CategoryBlacklist
-    _legacy_link: CategoryBlacklist
+    _legacy_controller: IdealoFeedCategoryBlacklist
+    _legacy_link: IdealoFeedCategoryBlacklist
 
 idealofeed_category_blacklist_search:
-  path: /category-blacklist
+  path: /category/blacklist
   methods: [POST]
   defaults:
     _controller: 'IdealoFeed\Controller\CategoryBlacklistController::searchAction'
     redirectRoute: idealofeed_category_blacklist_index
-    _legacy_controller: CategoryBlacklist
-    _legacy_link: CategoryBlacklist
+    _legacy_controller: IdealoFeedCategoryBlacklist
+    _legacy_link: IdealoFeedCategoryBlacklist
 
 idealofeed_category_blacklist_delete:
-  path: /category-blacklist/delete
+  path: /category/blacklist/delete
   methods: [POST]
   defaults:
     _controller: 'IdealoFeed\Controller\CategoryBlacklistController::deleteAction'
-    _legacy_controller: CategoryBlacklist
-    _legacy_link: CategoryBlacklist
+    _legacy_controller: IdealoFeedCategoryBlacklist
+    _legacy_link: IdealoFeedCategoryBlacklist
 
 idealofeed_category_blacklist_create:
-  path: /idealofeed/category-blacklist/create
+  path: /idealofeed/category/blacklist/create
   methods: [GET, POST]
   defaults:
     _controller: 'IdealoFeed\Controller\CategoryBlacklistController::createAction'
-    _legacy_controller: CategoryBlacklist
-    _legacy_link: CategoryBlacklist
+    _legacy_controller: IdealoFeedCategoryBlacklist
+    _legacy_link: IdealoFeedCategoryBlacklist
