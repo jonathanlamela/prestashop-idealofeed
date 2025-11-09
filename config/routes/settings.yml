@@ -1,4 +1,4 @@
-idealofeed_settings_settings_index:
+idealofeed_settings_index:
   path: /settings
   methods: [GET, POST]
   defaults:

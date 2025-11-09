@@ -103,11 +103,11 @@ class IdealoFeedRealtimeModuleFrontController extends ModuleFrontController
             $internal_codes[] = $item["internal_code"];
         }
 
-        $rami_query = $db->executeS("SELECT id_ramo_categoria, ramo FROM " . _DB_PREFIX_ . "webfeed_ramo_categoria");
+        $rami_query = $db->executeS("SELECT id, ramo FROM " . _DB_PREFIX_ . "webfeed_ramo_categoria");
         $rami = [];
 
         foreach ($rami_query as $ramo) {
-            $rami[$ramo["id_ramo_categoria"]] = $ramo["ramo"];
+            $rami[$ramo["id"]] = $ramo["ramo"];
         }
 
         //Ottieni i prezzi specifici attivi
