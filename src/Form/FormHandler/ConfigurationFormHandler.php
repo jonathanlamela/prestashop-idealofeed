@@ -41,7 +41,7 @@ class ConfigurationFormHandler
         // For checkbox fields convert string "1"/"0" to boolean for Symfony form
         $data['LIVE_URL'] = Tools::getHttpHost(true)
             . __PS_BASE_URI__
-            . "module/idealofeed/crono";
+            . "module/idealofeed/realtime";
 
 
         return $data;
