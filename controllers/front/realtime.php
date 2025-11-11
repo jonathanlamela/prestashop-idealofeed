@@ -103,13 +103,6 @@ class IdealoFeedRealtimeModuleFrontController extends ModuleFrontController
             $internal_codes[] = $item["internal_code"];
         }
 
-        $rami_query = $db->executeS("SELECT id, ramo FROM " . _DB_PREFIX_ . "webfeed_ramo_categoria");
-        $rami = [];
-
-        foreach ($rami_query as $ramo) {
-            $rami[$ramo["id"]] = $ramo["ramo"];
-        }
-
         //Ottieni i prezzi specifici attivi
         $specific_prices_query = $db->executeS("SELECT * FROM " . _DB_PREFIX_ . "specific_price WHERE `to` > NOW()");
         $specific_prices = [];
@@ -137,8 +130,16 @@ class IdealoFeedRealtimeModuleFrontController extends ModuleFrontController
                     continue; // Skip products from excluded suppliers
                 }
 
-                if (isset($rami[$row["id_category_default"]])) {
-                    $row["category_tree"] = $rami[$row["id_category_default"]];
+                if ($row["id_category_default"]) {
+                    $category = new Category($row["id_category_default"]);
+                    $parents = $category->getParentsCategories();
+                    // Ordina i genitori dal root alla categoria corrente
+                    $parents = array_reverse($parents);
+                    // Estrai solo i nomi
+                    $names = array_column($parents, 'name');
+                    // Unisci con " > "
+                    $path = implode(' > ', $names);
+                    $row["category_tree"] = $path;
                 } else {
                     continue; // Skip products with no category
                 }
