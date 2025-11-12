@@ -42,14 +42,12 @@ class IdealoFeedRealtimeModuleFrontController extends ModuleFrontController
             pl.description_short,
             wi.image_url AS image_url,
             p.condition,
-            wp.internal_code
+            p.db_internal_code as internal_code
         FROM " . _DB_PREFIX_ . "product p
         INNER JOIN " . _DB_PREFIX_ . "product_lang pl
             ON p.id_product = pl.id_product AND pl.id_lang = 1
-        INNER JOIN " . _DB_PREFIX_ . "webfeed_product wp
-            ON wp.id_product = p.id_product
         INNER JOIN " . _DB_PREFIX_ . "webfeed_images wi
-            ON wp.internal_code = wi.internal_code AND wi.image_url IS NOT NULL
+            ON p.db_internal_code = wi.internal_code AND wi.image_url IS NOT NULL
         INNER JOIN " . _DB_PREFIX_ . "stock_available st
             ON st.id_product = p.id_product AND st.quantity > 0
         LEFT JOIN " . _DB_PREFIX_ . "manufacturer pm
